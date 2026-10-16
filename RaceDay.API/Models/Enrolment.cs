@@ -11,7 +11,7 @@ namespace RaceDay.API.Models
         public string Status { get; set; } = "Pending";
         public string PaymentStatus { get; set; } = "Unpaid";
 
-        // This line fixes the "EventCategory" error in your Enrolments controller:
+        // Navigation Property
         public EventCategory? EventCategory { get; set; }
     }
 }

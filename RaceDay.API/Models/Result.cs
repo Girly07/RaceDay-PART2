@@ -10,7 +10,7 @@ namespace RaceDay.API.Models
         public int Position { get; set; }
         public string Status { get; set; } = "Finished";
 
-        // This line fixes the "Enrolment" error in your Results controller:
+        // Navigation Property
         public Enrolment? Enrolment { get; set; }
     }
 }
