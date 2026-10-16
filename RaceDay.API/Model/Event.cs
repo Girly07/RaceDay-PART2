@@ -1,4 +1,6 @@
-﻿namespace RaceDay.API.Model
+﻿using RaceDay.API.Model;
+
+namespace RaceDay.API.Models
 {
     public class Event
     {
@@ -10,22 +12,7 @@
         public string Location { get; set; } = string.Empty;
         public string Status { get; set; } = "Open";
 
-        // Navigation
+        // Navigation property
         public User? Organiser { get; set; }
-        public ICollection<EventCategory>? EventCategories { get; set; }
-    }
-    public class Event
-    {
-        public int EventID { get; set; }
-        public int OrganiserID { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public DateTime EventDate { get; set; }
-        public string Location { get; set; } = string.Empty;
-        public string Status { get; set; } = "Open";
-
-        // Navigation
-        public User? Organiser { get; set; }
-        public ICollection<EventCategory>? EventCategories { get; set; }
     }
 }

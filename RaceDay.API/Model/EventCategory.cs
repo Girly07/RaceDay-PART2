@@ -13,3 +13,4 @@
         public Event? Event { get; set; }
         public Category? Category { get; set; }
     }
+}

@@ -18,17 +18,15 @@ namespace RaceDay.API.Controllers
             _context = context;
         }
 
-        // DTO for Registration
         public class RegisterDto
         {
             public string FirstName { get; set; } = string.Empty;
             public string LastName { get; set; } = string.Empty;
             public string Email { get; set; } = string.Empty;
             public string Password { get; set; } = string.Empty;
-            public string Role { get; set; } = "Participant"; // Organiser or Participant
+            public string Role { get; set; } = "Participant";
         }
 
-        // DTO for Login
         public class LoginDto
         {
             public string Email { get; set; } = string.Empty;
@@ -38,15 +36,12 @@ namespace RaceDay.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto request)
         {
-            // 1. Validate Role
             if (request.Role != "Organiser" && request.Role != "Participant")
                 return BadRequest("Invalid role. Must be 'Organiser' or 'Participant'.");
 
-            // 2. Check if Email exists
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
                 return Conflict("Email already exists.");
 
-            // 3. Create User
             var user = new User
             {
                 FirstName = request.FirstName,
@@ -65,17 +60,16 @@ namespace RaceDay.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto request)
         {
-            // 1. Find user
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+
             if (user == null)
                 return Unauthorized("Invalid email or password.");
 
-            // 2. Verify Password
             var hashedInput = PasswordHasher.HashPassword(request.Password);
+
             if (user.PasswordHash != hashedInput)
                 return Unauthorized("Invalid email or password.");
 
-            // 3. Set Session Data
             HttpContext.Session.SetInt32("UserID", user.UserID);
             HttpContext.Session.SetString("UserRole", user.Role);
             HttpContext.Session.SetString("UserName", user.FirstName);
