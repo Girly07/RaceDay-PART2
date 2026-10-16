@@ -1,4 +1,7 @@
-﻿namespace RaceDay.API.Model
+﻿using System;
+using RaceDay.API.Model;
+
+namespace RaceDay.API.Models
 {
     public class EventCategory
     {
@@ -9,7 +12,7 @@
         public int MaxParticipants { get; set; }
         public decimal Price { get; set; }
 
-        // Navigation
+        // Navigation properties
         public Event? Event { get; set; }
         public Category? Category { get; set; }
     }
