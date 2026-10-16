@@ -1,4 +1,5 @@
-﻿using RaceDay.API.Model;
+﻿using System;
+using RaceDay.API.Model;
 
 namespace RaceDay.API.Models
 {
@@ -12,7 +13,9 @@ namespace RaceDay.API.Models
         public string Location { get; set; } = string.Empty;
         public string Status { get; set; } = "Open";
 
-        // Navigation property
+        // This line fixes the "CreatedAt" error:
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
         public User? Organiser { get; set; }
     }
 }
