@@ -1,4 +1,6 @@
-﻿namespace RaceDay.API.Model
+﻿using System;
+
+namespace RaceDay.API.Models
 {
     public class Result
     {
@@ -7,5 +9,8 @@
         public TimeSpan FinishTime { get; set; }
         public int Position { get; set; }
         public string Status { get; set; } = "Finished";
+
+        // This line fixes the "Enrolment" error in your Results controller:
+        public Enrolment? Enrolment { get; set; }
     }
 }
