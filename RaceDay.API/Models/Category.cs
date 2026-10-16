@@ -1,4 +1,4 @@
-﻿namespace RaceDay.API.Model
+﻿namespace RaceDay.API.Models
 {
     public class Category
     {
