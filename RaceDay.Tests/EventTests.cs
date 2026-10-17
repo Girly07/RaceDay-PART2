@@ -22,7 +22,7 @@ namespace RaceDay.Tests
         [Fact]
         public async Task CreateEvent_OrganiserRole_ReturnsCreated()
         {
-            // Arrange
+            
             var context = GetInMemoryDbContext();
             var controller = new EventsController(context);
 

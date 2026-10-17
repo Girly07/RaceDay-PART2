@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 3. IMPORTANT: UseSession must be BEFORE UseAuthorization
+
 app.UseSession();
 app.UseAuthorization();
 

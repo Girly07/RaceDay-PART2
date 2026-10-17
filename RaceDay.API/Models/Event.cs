@@ -13,7 +13,7 @@ namespace RaceDay.API.Models
         public string Location { get; set; } = string.Empty;
         public string Status { get; set; } = "Open";
 
-        // This line fixes the "CreatedAt" error:
+        
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public User? Organiser { get; set; }

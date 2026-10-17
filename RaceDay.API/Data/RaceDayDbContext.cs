@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Model;
-using RaceDay.API.Models; // This will now work correctly
+using RaceDay.API.Models; 
 
 namespace RaceDay.API.Data
 {
