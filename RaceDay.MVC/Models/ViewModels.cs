@@ -46,6 +46,18 @@ namespace RaceDay.MVC.Models
 
         [Required]
         public string Location { get; set; } = string.Empty;
+
+        public IFormFile? EventImage { get; set; } 
+    }
+
+    public class CategoryViewModel
+    {
+        [Required]
+        public string Name { get; set; } = string.Empty;
+        [Required]
+        public int AgeFrom { get; set; }
+        [Required]
+        public int AgeTo { get; set; }
     }
 
     public class CaptureResultViewModel
