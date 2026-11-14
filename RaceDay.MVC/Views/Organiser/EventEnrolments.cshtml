@@ -9,26 +9,37 @@
         <a asp-action="Index" class="btn btn-outline-secondary">Back to Dashboard</a>
     </div>
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
     @if (Model.Count > 0)
     {
-        <table class="table table-bordered shadow-sm">
+        <table class="table table-bordered shadow-sm bg-white">
             <thead class="table-dark">
                 <tr>
-                    <th>Participant Name</th>
-                    <th>Category</th>
+                    <th>Participant ID</th>
+                    <th>Category ID</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var enr in Model)
                 {
                     <tr>
-                        <td>User ID: @enr.participantID</td>
-                        <td>Category ID: @enr.eventCategoryID</td>
+                        <td>User: @enr.participantID</td>
+                        <td>Cat: @enr.eventCategoryID</td>
                         <td>
                             <span class="badge @(enr.status == "Confirmed" ? "bg-success" : "bg-warning text-dark")">
                                 @enr.status
                             </span>
+                        </td>
+                        <td>
+                            <a href="/Organiser/CaptureResult?enrolmentId=@enr.enrolmentID" class="btn btn-sm btn-primary">
+                                Capture Result
+                            </a>
                         </td>
                     </tr>
                 }
