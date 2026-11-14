@@ -47,4 +47,13 @@ namespace RaceDay.MVC.Models
         [Required]
         public string Location { get; set; } = string.Empty;
     }
+
+    public class CaptureResultViewModel
+    {
+        public int EnrolmentID { get; set; }
+        public string ParticipantName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public string FinishTime { get; set; } = string.Empty; // e.g., "01:30:00"
+        public int Position { get; set; }
+    }
 }
