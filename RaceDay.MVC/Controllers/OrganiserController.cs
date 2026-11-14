@@ -36,5 +36,18 @@ namespace RaceDay.MVC.Controllers
             ModelState.AddModelError("", "Failed to create event. Make sure API is running.");
             return View(model);
         }
+
+        // NEW: View Participants for a specific event to capture results
+        [HttpGet]
+        public async Task<IActionResult> EventEnrolments(int id)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Account");
+
+            // Get all enrolments for this event from the API
+            var enrolments = await _apiService.GetAsync<List<dynamic>>($"api/enrolments/event/{id}");
+
+            ViewBag.EventId = id;
+            return View(enrolments ?? new List<dynamic>());
+        }
     }
 }
