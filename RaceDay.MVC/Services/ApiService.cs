@@ -6,10 +6,12 @@ namespace RaceDay.MVC.Services
     public class ApiService
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ApiService(HttpClient httpClient)
+        public ApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<T?> GetAsync<T>(string endpoint)
