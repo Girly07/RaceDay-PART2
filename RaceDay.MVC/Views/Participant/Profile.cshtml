@@ -1,0 +1,104 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0">My Profile</h4>
+                </div>
+                <div class="card-body text-center p-5">
+
+                    <!-- Profile Picture Display -->
+                    @if (Model?.profilePictureUrl != null)
+                    {
+                        <img src="@Model.profilePictureUrl" alt="Profile" class="rounded-circle mb-3 shadow" style="width: 150px; height: 150px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <div class="bg-secondary rounded-circle d-inline-flex justify-content-center align-items-center mb-3 shadow text-white" style="width: 150px; height: 150px; font-size: 50px;">
+                            @(Model?.firstName != null ? Model.firstName.ToString().Substring(0, 1) : "U")
+                        </div>
+                    }
+
+                    <h3>@Model?.firstName @Model?.lastName</h3>
+                    <p class="text-muted">@Model?.email</p>
+
+                    <hr />
+
+                    <!-- Profile Update Form -->
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Update Profile Picture (Azure Blob)</label>
+                            <input type="file" id="profilePic" class="form-control" accept="image/*" />
+                            <small class="text-muted">Select an image to upload to the cloud.</small>
+                        </div>
+                        <button type="button" onclick="uploadProfile()" class="btn btn-primary w-100" id="uploadBtn">
+                            Upload to Azure
+                        </button>
+
+                        <!-- Success/Error Message Area -->
+                        <div id="messageBox" class="mt-3 text-center d-none"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function uploadProfile() {
+            const fileInput = document.getElementById('profilePic');
+            const messageBox = document.getElementById('messageBox');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (fileInput.files.length === 0) {
+                messageBox.className = "alert alert-warning mt-3";
+                messageBox.innerText = "Please select an image file first.";
+                messageBox.classList.remove('d-none');
+                return;
+            }
+
+            const formData = new FormData();
+            // We pass the existing names so the API doesn't overwrite them with nulls
+            formData.append("firstName", "@(Model?.firstName ?? "")");
+            formData.append("lastName", "@(Model?.lastName ?? "")");
+            formData.append("profilePic", fileInput.files[0]);
+
+            // Disable button to show loading
+            uploadBtn.disabled = true;
+            uploadBtn.innerText = "Uploading...";
+
+            try {
+                // IMPORTANT: Make sure this URL matches your API URL (port 5225)
+                const response = await fetch('http://localhost:5225/api/auth/update-profile', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    messageBox.className = "alert alert-success mt-3";
+                    messageBox.innerText = "Profile picture updated successfully via Azure Blob!";
+                    messageBox.classList.remove('d-none');
+
+                    // Reload the page after 1.5 seconds to show the new image
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    throw new Error("Server responded with an error.");
+                }
+            } catch (error) {
+                messageBox.className = "alert alert-danger mt-3";
+                messageBox.innerText = "Failed to upload image. Make sure the API is running.";
+                messageBox.classList.remove('d-none');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.innerText = "Upload to Azure";
+            }
+        }
+    </script>
+}
