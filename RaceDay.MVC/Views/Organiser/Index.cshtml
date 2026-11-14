@@ -19,7 +19,9 @@
                         <div class="card-body">
                             <h5 class="card-title text-dark">@ev.name</h5>
                             <p class="text-muted mb-2">📍 @ev.location</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm w-100">Manage Event</a>
+
+                            <!-- NEW: Link to view enrolments -->
+                            <a href="/Organiser/EventEnrolments/@ev.eventID" class="btn btn-outline-primary btn-sm w-100">Manage Participants</a>
                         </div>
                     </div>
                 </div>
