@@ -1,0 +1,50 @@
+﻿@model RaceDay.MVC.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow border-0">
+            <div class="card-body p-5">
+                <h3 class="text-center text-success mb-4">Create an Account</h3>
+                <form asp-action="Register" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label">First Name</label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label">Last Name</label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label">Register as:</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="Participant">Participant (Runner)</option>
+                            <option value="Organiser">Organiser (Event Creator)</option>
+                        </select>
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <button type="submit" class="btn btn-success w-100">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <a asp-action="Login" class="text-decoration-none">Already have an account? Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
