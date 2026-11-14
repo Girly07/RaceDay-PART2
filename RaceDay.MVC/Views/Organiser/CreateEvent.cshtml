@@ -1,0 +1,44 @@
+﻿@model RaceDay.MVC.Models.CreateEventViewModel
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Create a New Race Event</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="CreateEvent" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-bold">Event Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g., City Marathon 2026" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="EventDate" class="form-label fw-bold">Date</label>
+                                <input asp-for="EventDate" class="form-control" type="date" />
+                                <span asp-validation-for="EventDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Location" class="form-label fw-bold">Location</label>
+                                <input asp-for="Location" class="form-control" />
+                                <span asp-validation-for="Location" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <button type="submit" class="btn btn-success w-100">Publish Event</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
