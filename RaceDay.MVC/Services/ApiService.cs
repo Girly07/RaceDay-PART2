@@ -14,6 +14,36 @@ namespace RaceDay.MVC.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        // Add this inside ApiService.cs
+        public async Task<HttpResponseMessage> PostFormDataAsync(string endpoint, Dictionary<string, string> formData, IFormFile? file)
+        {
+            try
+            {
+                using var content = new MultipartFormDataContent();
+
+                foreach (var key in formData.Keys)
+                {
+                    content.Add(new StringContent(formData[key]), key);
+                }
+
+                if (file != null)
+                {
+                    var fileContent = new StreamContent(file.OpenReadStream());
+                    fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                    content.Add(fileContent, "image", file.FileName);
+                }
+
+                return await _httpClient.PostAsync(endpoint, content);
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponseMessage(System.Net.HttpStatusCode.ServiceUnavailable)
+                {
+                    Content = new StringContent("API is offline: " + ex.Message)
+                };
+            }
+        }
+
         public async Task<T?> GetAsync<T>(string endpoint)
         {
             try
