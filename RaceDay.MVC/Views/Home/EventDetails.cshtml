@@ -1,0 +1,45 @@
+﻿@model dynamic
+@{ ViewData["Title"] = "Event Details"; }
+
+<div class="container mt-5">
+    <div class="card shadow border-0">
+        @if (Model.bannerImageUrl != null)
+        {
+            <img src="@Model.bannerImageUrl" class="card-img-top" alt="Event Banner" style="max-height: 300px; object-fit: cover;">
+        }
+        <div class="card-body p-5">
+            <h1 class="text-primary">@Model.name</h1>
+            <p class="lead">@Model.description</p>
+            <p><strong>📍 Location:</strong> @Model.location</p>
+            <p><strong>📅 Date:</strong> @Model.eventDate.ToString("dd MMM yyyy")</p>
+            
+            <hr />
+            <h4>Available Categories</h4>
+            
+            @if (ViewBag.Categories != null)
+            {
+                <div class="row mt-3">
+                    @foreach (var cat in ViewBag.Categories)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light border-0">
+                                <div class="card-body text-center">
+                                    <h5>@cat.category.name</h5>
+                                    <p class="text-muted">@cat.category.distanceKm KM - R @cat.price</p>
+                                    
+                                    @if (Context.Session.GetString("UserRole") == "Participant")
+                                    {
+                                        <form asp-controller="Participant" asp-action="Enrol" method="post">
+                                            <input type="hidden" name="eventCategoryId" value="@cat.eventCategoryID" />
+                                            <button type="submit" class="btn btn-success w-100">Enrol Now</button>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
