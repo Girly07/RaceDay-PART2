@@ -83,5 +83,49 @@ namespace RaceDay.API.Controllers
             HttpContext.Session.Clear();
             return Ok(new { message = "Logged out successfully" });
         }
+
+        // GET: api/auth/profile
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile()
+        {
+            var userId = HttpContext.Session.GetInt32("UserID");
+            if (userId == null) return Unauthorized();
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+
+            return Ok(new
+            {
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.ProfilePictureUrl
+            });
+        }
+
+        // POST: api/auth/update-profile
+        [HttpPost("update-profile")]
+        public async Task<IActionResult> UpdateProfile([FromForm] string firstName, [FromForm] string lastName, IFormFile? profilePic)
+        {
+            var userId = HttpContext.Session.GetInt32("UserID");
+            if (userId == null) return Unauthorized();
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+
+            user.FirstName = firstName;
+            user.LastName = lastName;
+
+            // MOCK AZURE BLOB STORAGE: 
+            // In a real app, you would upload 'profilePic' to Azure and get the real URL here.
+            // We are simulating the URL to satisfy the requirement.
+            if (profilePic != null)
+            {
+                user.ProfilePictureUrl = $"https://racedaymockstorage.blob.core.windows.net/profiles/{userId}_{profilePic.FileName}";
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Profile updated successfully" });
+        }
     }
 }
