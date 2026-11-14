@@ -43,8 +43,4 @@ The solution strictly adheres to the requirement that the MVC project must not h
 *   **Azure Blob Storage:** Event banner images and user profile pictures are uploaded via the API to Azure Blob Storage (with mock fallback for local testing).
 *   **Docker Containerisation:** The entire application is containerised for consistent deployment.
 
-## 🚀 How to Run Locally (Without Docker)
-1. Clone the repository and open `RaceDaySolution.sln` in Visual Studio.
-2. Ensure your database is up to date by running the following in the Package Manager Console (select `RaceDay.API` as the default project):
-   ```bash
-   Update-Database
+
