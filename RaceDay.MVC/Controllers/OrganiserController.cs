@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaceDay.MVC.Models;
 using RaceDay.MVC.Services;
+using System.Text.Json;
 
 namespace RaceDay.MVC.Controllers
 {
@@ -16,7 +17,6 @@ namespace RaceDay.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Account");
-
             var events = await _apiService.GetAsync<List<dynamic>>("api/events");
             return View(events ?? new List<dynamic>());
         }
@@ -28,26 +28,50 @@ namespace RaceDay.MVC.Controllers
         public async Task<IActionResult> CreateEvent(CreateEventViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-
             var response = await _apiService.PostAsync("api/events", model);
-
             if (response.IsSuccessStatusCode) return RedirectToAction("Index");
-
-            ModelState.AddModelError("", "Failed to create event. Make sure API is running.");
+            ModelState.AddModelError("", "Failed to create event.");
             return View(model);
         }
 
-        // NEW: View Participants for a specific event to capture results
         [HttpGet]
         public async Task<IActionResult> EventEnrolments(int id)
         {
             if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Account");
-
-            // Get all enrolments for this event from the API
             var enrolments = await _apiService.GetAsync<List<dynamic>>($"api/enrolments/event/{id}");
-
             ViewBag.EventId = id;
             return View(enrolments ?? new List<dynamic>());
+        }
+
+        // NEW: Capture Result Form
+        [HttpGet]
+        public IActionResult CaptureResult(int enrolmentId)
+        {
+            ViewBag.EnrolmentId = enrolmentId;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CaptureResult(int enrolmentId, string finishTime, int position)
+        {
+            var data = new
+            {
+                EnrolmentID = enrolmentId,
+                FinishTime = finishTime,
+                Position = position,
+                Status = "Finished"
+            };
+
+            var response = await _apiService.PostAsync("api/results", data);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Success"] = "Result captured!";
+                return RedirectToAction("Index"); // Go back to dashboard
+            }
+
+            ModelState.AddModelError("", "Failed to capture result. It might already exist.");
+            return View();
         }
     }
 }
