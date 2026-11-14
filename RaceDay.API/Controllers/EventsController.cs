@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
 using RaceDay.API.Filters;
 using RaceDay.API.Models;
+using RaceDay.API.Services;
 
 namespace RaceDay.API.Controllers
 {
@@ -41,18 +42,25 @@ namespace RaceDay.API.Controllers
             return Ok(raceEvent);
         }
 
-        // POST: api/events (Organiser Only)
+        // POST: api/events
         [HttpPost]
         [AuthorizeRole("Organiser")]
-        public async Task<IActionResult> CreateEvent(Event newEvent)
+        // CHANGE: Use [FromForm] instead of JSON body
+        public async Task<IActionResult> CreateEvent([FromForm] Event newEvent, IFormFile? image)
         {
-            // Get the logged-in Organiser's ID from the session
             var userId = HttpContext.Session.GetInt32("UserID");
             if (userId == null) return Unauthorized();
 
             newEvent.OrganiserID = userId.Value;
             newEvent.CreatedAt = DateTime.Now;
             newEvent.Status = "Open";
+
+            // Upload image to Azure Blob (or mock)
+            if (image != null)
+            {
+                var blobService = HttpContext.RequestServices.GetRequiredService<BlobService>();
+                newEvent.BannerImageUrl = await blobService.UploadFileAsync(image);
+            }
 
             _context.Events.Add(newEvent);
             await _context.SaveChangesAsync();

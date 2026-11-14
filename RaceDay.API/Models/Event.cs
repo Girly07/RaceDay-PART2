@@ -17,5 +17,7 @@ namespace RaceDay.API.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public User? Organiser { get; set; }
+
+        public User? BannerImageUrl { get; set; }
     }
 }
