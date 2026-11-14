@@ -30,6 +30,14 @@
                         <p class="mb-1"><strong>📍 Location:</strong> @ev.location</p>
                         <p><strong>📅 Date:</strong> @ev.eventDate.ToString("dd MMM yyyy")</p>
                     </div>
+                    <div class="card-footer bg-white border-0 text-center pb-3">
+                        @if (Context.Session.GetString("UserRole") == "Participant")
+                        {
+                            <!-- In a real app, you'd route to a details page to pick a category.
+                                 For simplicity, we will just hardcode a link (you'll need to update the ID logic later) -->
+                            <a href="/Participant/Enrol?eventCategoryId=1" class="btn btn-outline-success w-100">Enrol Now</a>
+                        }
+                    </div>
                 </div>
             </div>
         }
