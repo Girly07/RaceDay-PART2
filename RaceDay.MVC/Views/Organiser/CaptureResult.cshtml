@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Capture Result";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Capture Race Result</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="CaptureResult" method="post">
+                        <!-- Hidden field for EnrolmentID -->
+                        <input type="hidden" name="enrolmentId" value="@ViewBag.EnrolmentId" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Finish Time (HH:MM:SS)</label>
+                            <input type="text" name="finishTime" class="form-control" placeholder="e.g., 01:45:30" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Finishing Position</label>
+                            <input type="number" name="position" class="form-control" placeholder="e.g., 1" required />
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Publish Result</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
