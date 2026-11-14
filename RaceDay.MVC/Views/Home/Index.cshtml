@@ -1,11 +1,43 @@
-﻿@{
+﻿@model List<dynamic>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center mt-5">
-    <h1 class="display-4">Welcome to RaceDay</h1>
-    <p>Check out our upcoming events!</p>
+<div class="text-center mt-4">
+    <h1 class="display-4 text-primary">Welcome to RaceDay</h1>
+    <p class="lead">Find your next race and join the community!</p>
+</div>
 
-    <!-- This is where the connection status will show -->
-    <h2 class="text-success mt-4">@ViewBag.ApiStatus</h2>
+@if (ViewBag.IsApiOnline == false)
+{
+    <div class="alert alert-danger mt-4 text-center">
+        <h4>API Connection Failed</h4>
+        <p>Please make sure the <strong>RaceDay.API</strong> project is running on port 5225.</p>
+    </div>
+}
+
+<div class="row mt-5">
+    @if (Model.Count > 0)
+    {
+        foreach (var ev in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary">@ev.name</h4>
+                        <p class="card-text text-muted">@ev.description</p>
+                        <hr />
+                        <p class="mb-1"><strong>📍 Location:</strong> @ev.location</p>
+                        <p><strong>📅 Date:</strong> @ev.eventDate.ToString("dd MMM yyyy")</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12 text-center mt-5">
+            <p class="text-muted">No events available right now. Check back later!</p>
+        </div>
+    }
 </div>
