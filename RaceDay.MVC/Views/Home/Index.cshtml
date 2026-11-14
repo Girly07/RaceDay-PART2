@@ -1,9 +1,11 @@
-﻿<h2 class="text-center text-success mt-5">@ViewBag.ApiStatus</h2>
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5">
+    <h1 class="display-4">Welcome to RaceDay</h1>
+    <p>Check out our upcoming events!</p>
+
+    <!-- This is where the connection status will show -->
+    <h2 class="text-success mt-4">@ViewBag.ApiStatus</h2>
 </div>
