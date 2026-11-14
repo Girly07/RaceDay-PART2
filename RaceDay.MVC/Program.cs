@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
-// Configure HttpClient to talk to the API
+// Configure connection to API
 builder.Services.AddHttpClient<ApiService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5225/");
@@ -16,7 +16,7 @@ builder.Services.AddHttpClient<ApiService>(client =>
     CookieContainer = new System.Net.CookieContainer()
 });
 
-// Enable Sessions
+// Configure sessions
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -36,7 +36,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession(); // Must be before Authorization
+
+app.UseSession(); // CRITICAL: Must be here before Authorization
 app.UseAuthorization();
 
 app.MapControllerRoute(
