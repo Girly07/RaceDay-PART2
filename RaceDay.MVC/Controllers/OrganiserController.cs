@@ -28,8 +28,20 @@ namespace RaceDay.MVC.Controllers
         public async Task<IActionResult> CreateEvent(CreateEventViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var response = await _apiService.PostAsync("api/events", model);
+
+            // Convert model to form data
+            var formData = new Dictionary<string, string>
+            {
+                { "Name", model.Name },
+                { "Description", model.Description },
+                { "EventDate", model.EventDate.ToString("yyyy-MM-ddTHH:mm:ss") },
+                { "Location", model.Location }
+            };
+
+            var response = await _apiService.PostFormDataAsync("api/events", formData, model.BannerImage);
+
             if (response.IsSuccessStatusCode) return RedirectToAction("Index");
+
             ModelState.AddModelError("", "Failed to create event.");
             return View(model);
         }
