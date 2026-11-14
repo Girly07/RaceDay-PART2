@@ -9,5 +9,7 @@
         public string PasswordHash { get; set; } = string.Empty;
         public string Role { get; set; } = "Participant"; // Organiser or Participant
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public string? ProfilePictureUrl { get; set; } // NEW
     }
 }
