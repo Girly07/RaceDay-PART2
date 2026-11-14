@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Database Connection
 builder.Services.AddDbContext<RaceDayDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure()
+);
 
 // 2. Session Management
 builder.Services.AddDistributedMemoryCache();
