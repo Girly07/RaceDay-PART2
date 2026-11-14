@@ -18,5 +18,17 @@ namespace RaceDay.MVC.Controllers
             ViewBag.IsApiOnline = events != null;
             return View(events ?? new List<dynamic>());
         }
+
+        
+        public async Task<IActionResult> EventDetails(int id)
+        {
+            var ev = await _apiService.GetAsync<dynamic>($"api/events/{id}");
+            var categories = await _apiService.GetAsync<List<dynamic>>($"api/categories/event/{id}");
+
+            if (ev == null) return NotFound();
+
+            ViewBag.Categories = categories;
+            return View(ev);
+        }
     }
 }
