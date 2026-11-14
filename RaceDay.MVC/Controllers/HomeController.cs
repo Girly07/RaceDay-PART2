@@ -1,13 +1,16 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using RaceDay.MVC.Models;
+using RaceDay.MVC.Services;
 
 namespace RaceDay.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var events = await _apiService.GetAsync<List<dynamic>>("api/events");
+            ViewBag.ApiStatus = events != null ? "Successfully connected to API!" : "Failed to connect to API.";
             return View();
         }
 
