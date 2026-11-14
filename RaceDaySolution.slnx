@@ -3,5 +3,6 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="RaceDay.API/RaceDay.API.csproj" />
+  <Project Path="RaceDay.MVC/RaceDay.MVC.csproj" Id="56c9bbd5-5eda-4793-831a-fba8acf2baa0" />
   <Project Path="RaceDay.Tests/RaceDay.Tests.csproj" Id="499f2bc0-eba8-4b97-8c08-a98e2455f105" />
 </Solution>
